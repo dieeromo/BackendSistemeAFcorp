@@ -46,10 +46,13 @@ INSTALLED_APPS = [
     'clientes',
     'facturasVentas',
     'generalAFC',
+    'productos',
+    'incidentes',
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://0.0.0.0:3000',
+    'http://localhost:3000'
 ]
 
 REST_FRAMEWORK = {     ## PARA LA AUTENTICACION

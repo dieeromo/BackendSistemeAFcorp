@@ -19,3 +19,4 @@ class FacturasV(models.Model):
     plazo_meses = models.IntegerField(null=True, blank= True)
     observacion = models.CharField(max_length=200,null=True, blank= True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
+    factura_cerrada = models.BooleanField(default=False)

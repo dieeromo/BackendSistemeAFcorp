@@ -31,12 +31,13 @@ def registroFacturaV(request,pk_cliente,pk_modo_cv, pk_empresa):
             estado_pago = False,
             #estado pago por defecto viene F, se modifica en cobros de facturas
             #monto = data['monto'],
-            monto = 100,
+            monto = '',
             #saldo = data['saldo'],  #### OJO: se modifica en cobros
-            saldo = 100,
+            saldo = '',
             #plazo_meses = data['plazo_meses'],
             plazo_meses = 6,
             observacion = data['observacion'],
+            factura_cerrada = False
         )
         serializer = FacturasV_Serializer(reg_factura, many=False)
         print("despues de crear")
@@ -45,3 +46,10 @@ def registroFacturaV(request,pk_cliente,pk_modo_cv, pk_empresa):
     except:
         message = {'detalle': 'algo esta mal en el registro del cliente'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listFacturasVentas(request):
+    facturas_ventas = FacturasV.objects.filter().order_by('-fecha') 
+    serializer = FacturasV_Serializer(facturas_ventas, many=True)
+    return Response(serializer.data)
