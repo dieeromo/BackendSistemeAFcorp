@@ -51,9 +51,17 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    'http://192.168.0.86:3000',
+    'http://localhost:3000',
     'http://0.0.0.0:3000',
-    'http://localhost:3000'
+    'http://192.168.0.118:3000',
+    'http://192.168.13.101:3000',
+
+    
+
 ]
+
+#CORS_ALLOW_ALL_ORIGINS= True
 
 REST_FRAMEWORK = {     ## PARA LA AUTENTICACION
     'DEFAULT_AUTHENTICATION_CLASSES': (

@@ -19,6 +19,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
 
         serializers = UserSerializerWithToken(self.user).data
+        print("111")
 
         for token, user in serializers.items():
             data[token] = user
@@ -26,6 +27,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return data
     
 class MyTokenObtainPairView(TokenObtainPairView):
+    print('2222')
     serializer_class = MyTokenObtainPairSerializer
 
 @api_view(['POST'])
