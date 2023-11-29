@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import FacturasV
+from .models import FacturasV, DetalleFacturaV
 
 
 class FacturasV_Serializer(serializers.ModelSerializer):
@@ -12,3 +12,11 @@ class FacturasV_Serializer(serializers.ModelSerializer):
     class Meta:
         model = FacturasV
         fields = "__all__"
+
+class DetalleFacturaV_Serializer(serializers.ModelSerializer):
+    user = serializers.CharField(source='user.user_name', read_only=True)
+    factura = serializers.CharField(source='factura.numero', read_only=True)
+    producto = serializers.CharField(source='producto.codigo', read_only=True)
+    class Meta:
+        model = DetalleFacturaV
+        fields = '__all__'

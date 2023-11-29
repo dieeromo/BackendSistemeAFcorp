@@ -32,6 +32,8 @@ def listEstadoProducto(request):
     serializer = EstadoProducto_Serializer(estadoProducto, many=True)
     return Response(serializer.data)
 
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def registroProductos(request,pk_tipo,pk_subtipo, pk_estado):
@@ -67,3 +69,11 @@ def registroProductos(request,pk_tipo,pk_subtipo, pk_estado):
     except:
         message = {'detalle': 'algo esta mal en el registro del cliente'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listProducto(request):
+    producto = Producto.objects.filter()
+    serializer = Producto_Serializer(producto, many=True)
+    return Response(serializer.data)
