@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Nivel, Red,  Nodo, TipoIncidente, Incidente
+from .models import Equipos_red, Mantenimientos_equipos, Movimientos_equipos
 
 class Nivel_Serializer(serializers.ModelSerializer):
     class Meta:
@@ -29,4 +30,28 @@ class Incidente_Serializer(serializers.ModelSerializer):
     tipo = serializers.CharField(source='tipo.tipo', read_only=True)
     class Meta:
         model = Incidente
+        fields = "__all__"
+
+
+class Equipos_red_Serializer(serializers.ModelSerializer):
+    user = serializers.CharField(source='user.user_name', read_only=True)
+    nodo_inicial = serializers.CharField(source='nodo_inicial.nodo', read_only=True)
+    nodo_actual = serializers.CharField(source='nodo_actual.nodo', read_only=True)
+    class Meta:
+        model = Equipos_red
+        fields = "__all__"
+
+class Mantenimientos_Equipos_Serializer(serializers.ModelSerializer):
+    equipo = serializers.CharField(source='equipo.equipo', read_only=True)
+    class Meta:
+        mode = Mantenimientos_equipos
+        fields = "__all__"
+
+
+class Movimiento_Equipos_Serializer(serializers.ModelSerializer):
+    equipo = serializers.CharField(source='equipo.equipo', read_only=True)
+    nodo_salida = serializers.CharField(source='nodo_salida.nodo_salida', read_only=True)
+    nodo_llegada = serializers.CharField(source='nodo_llegada.nodo_llegada', read_only=True)
+    class Meta:
+        mode = Movimientos_equipos
         fields = "__all__"

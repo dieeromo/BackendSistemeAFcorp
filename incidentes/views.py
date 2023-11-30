@@ -6,7 +6,11 @@ from rest_framework import status
 
 from .serializers import Nivel_Serializer, Red_Serializer, Nodo_Serializer, TipoIncidente_Serializer, Incidente_Serializer
 
+from .serializers import Equipos_red_Serializer, Mantenimientos_Equipos_Serializer, Movimiento_Equipos_Serializer
+
 from.models import Nivel, Red, Nodo, TipoIncidente, Incidente
+
+from.models import Equipos_red, Mantenimientos_equipos, Movimientos_equipos
 
 
 @api_view(['GET'])
@@ -71,5 +75,90 @@ def registroIncidentes(request,pkNivel,pkRed, pkNodo,pkTipo):
 def listIncidente(request):
     incidentes = Incidente.objects.filter().order_by('-inicio') 
     serializer = Incidente_Serializer(incidentes, many=True)
-    print(serializer.data)
     return Response(serializer.data)
+
+
+
+
+########### BITACORA EQUIPOS
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def registroEquipos(request,pkNodo_inicial, pkNodo_actual):
+    nodo_inicial = Nodo.objects.get(id=pkNodo_inicial)
+    nodo_actual = Nodo.objects.get(id=pkNodo_actual)
+    data = request.data
+    user = request.user
+    try:
+        reg_equipo = Equipos_red.objects.create(
+            codigo = data['codigo'],
+            descripcion = data['descripcion'],
+            alias = data['alias'],
+            fecha_instalacion = data['fecha_instalacion'],
+            nodo_inicial = nodo_inicial,
+            nodo_actual = nodo_actual,
+            activo = data['activo'],
+            user = user
+        )
+        serializer = Equipos_red_Serializer(reg_equipo, many=False)
+        return Response(serializer.data)
+    except:
+        message = {'detalle': 'algo esta mal en el registro del cliente'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listEquiposRed(request):
+    equiposRed = Equipos_red.objects.filter().order_by('-fecha_instalacion') 
+    serializer = Equipos_red_Serializer(equiposRed, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def registroMantenimientoEquipos(request,pkEquipo):
+    equipo = Equipos_red.objects.get(id=pkEquipo)
+    data = request.data
+    user = request.user
+    try:
+        reg_mantenimiento = Mantenimientos_equipos.objects.create(
+            equipo = equipo,
+            fecha = data['fecha'],
+            problema = data['problema'],
+            solucion = data['solucion'],
+            user = user
+        )
+        serializer = Mantenimientos_Equipos_Serializer(reg_mantenimiento, many=False)
+        return Response(serializer.data)
+    except:
+        message = {'detalle': 'algo esta mal en el registro del cliente'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def registroMovimiento_Equipos(request,pkEquipo, pkNodoSalida, pkNodoLlegada):
+    nodo_salida = Nodo.objects.get(id=pkNodoSalida)
+    nodo_llegada = Nodo.objects.get(id=pkNodoLlegada)
+    equipo = Equipos_red.objects.get(id=pkEquipo)
+    data = request.data
+    user = request.user
+    try:
+        reg_movimientos = Movimientos_equipos.objects.create(
+            equipo = equipo,
+            fecha = data['fecha'],
+            nodo_salida = nodo_salida,
+            nodo_llegada = nodo_llegada,
+            observacion = data['observacion'],
+            user = user
+        )
+        serializer = Movimiento_Equipos_Serializer(reg_movimientos, many=False)
+        return Response(serializer.data)
+    except:
+        message = {'detalle': 'algo esta mal en el registro del cliente'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
