@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Nivel, Red,  Nodo, TipoIncidente, Incidente
 from .models import Equipos_red, Mantenimientos_equipos, Movimientos_equipos
-
+from .models import Tipo_fibra, Trazado_FO, Tipo_trabajo, Trabajos_FO
 class Nivel_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Nivel
@@ -32,7 +32,7 @@ class Incidente_Serializer(serializers.ModelSerializer):
         model = Incidente
         fields = "__all__"
 
-
+## BITACORA EQUIPOS
 class Equipos_red_Serializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.user_name', read_only=True)
     nodo_inicial = serializers.CharField(source='nodo_inicial.nodo', read_only=True)
@@ -44,7 +44,7 @@ class Equipos_red_Serializer(serializers.ModelSerializer):
 class Mantenimientos_Equipos_Serializer(serializers.ModelSerializer):
     equipo = serializers.CharField(source='equipo.equipo', read_only=True)
     class Meta:
-        mode = Mantenimientos_equipos
+        model = Mantenimientos_equipos
         fields = "__all__"
 
 
@@ -55,3 +55,35 @@ class Movimiento_Equipos_Serializer(serializers.ModelSerializer):
     class Meta:
         mode = Movimientos_equipos
         fields = "__all__"
+
+##BITACORA FIBRA OPTICA
+
+class Tipo_fibra_Serializer(serializers.ModelSerializer):
+    user = serializers.CharField(source='user.user_name', read_only=True)
+    class Meta:
+        model = Tipo_fibra
+        fields = "__all__"
+
+class Trazado_FO_Serializer(serializers.ModelSerializer):
+    user = serializers.CharField(source='user.user_name', read_only=True)
+    tipo_fibra = serializers.CharField(source='tipo_fibra.tipo', read_only=True)
+    class Meta:
+        model = Trazado_FO
+        fields = "__all__"
+
+
+class Tipo_trabajo_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tipo_trabajo
+        fields = "__all__"
+
+class Trabajos_FO_Serializer(serializers.ModelSerializer):
+    trazado = serializers.CharField(source='trazado.identificador', read_only = True)
+    user = serializers.CharField(source='user.user_name', read_only=True)
+    tipo_trabajo = serializers.CharField(source='tipo_trabajo.tipo_trabajo', read_only=True)
+    tipo_fibra_cambio = serializers.CharField(source='tipo_fibra_cambio.tipo', read_only=True)
+    class Meta:
+        model = Trabajos_FO
+        fields = "__all__"
+
+

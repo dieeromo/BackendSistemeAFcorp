@@ -55,4 +55,32 @@ class Movimientos_equipos(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 
+######  PARA BITACORA DE TRABAJOS DE FIBRA
+class Tipo_fibra(models.Model):
+    tipo = models.CharField(max_length=60)
+    numero_hilos = models.IntegerField()
+    descripcion = models.TextField()
+    marca = models.CharField(max_length=60)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Trazado_FO(models.Model):
+    identificador = models.TextField()
+    nombre = models.TextField()
+    descripcion = models.TextField(null=True, blank=True)
+    tipo_fibra = models.ForeignKey( Tipo_fibra, on_delete=models.CASCADE)
+    fecha = models.DateField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Tipo_trabajo(models.Model):
+    tipo_trabajo = models.TextField()
+
+class Trabajos_FO(models.Model):
+    trazado = models.ForeignKey( Trazado_FO, on_delete=models.CASCADE)
+    fecha = models.DateField()
+    tipo_trabajo = models.ForeignKey( Tipo_trabajo, on_delete=models.CASCADE)
+    tipo_fibra_cambio = models.ForeignKey( Tipo_fibra, on_delete=models.CASCADE)
+    descripcion = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
     

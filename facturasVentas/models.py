@@ -32,6 +32,6 @@ class DetalleFacturaV(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank= True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     bodega = models.ForeignKey(Bodega, on_delete=models.CASCADE)
-    empresa = models.ForeignKey(Empresa_corp, on_delete=models.CASCADE)
+    empresa = models.ForeignKey(Empresa_corp, on_delete=models.CASCADE, null= True, blank=True)
     
 
