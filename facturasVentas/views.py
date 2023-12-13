@@ -141,3 +141,21 @@ def detallesUltimaFactura(request, id):
         #return JsonResponse({'id':ultimo_dato.id, })
     else:
         return  JsonResponse({'detalle': None})
+
+
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def actualizacion_pagoFactura(request,pkfactura):
+    print("put")
+
+    facturaUp = FacturasV.objects.get(id=pkfactura)
+    print(facturaUp)
+    serializer = FacturasV_Serializer(facturaUp, many=False)
+    data = request.data
+    facturaUp.saldo = data['saldo']
+    facturaUp.save()
+    return Response(serializer.data)
+    #return JsonResponse({'site':None})
+

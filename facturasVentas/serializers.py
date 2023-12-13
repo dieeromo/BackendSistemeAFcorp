@@ -17,6 +17,7 @@ class DetalleFacturaV_Serializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.user_name', read_only=True)
     factura = serializers.CharField(source='factura.numero', read_only=True)
     producto = serializers.CharField(source='producto.codigo', read_only=True)
+    bodega = serializers.CharField(source='bodega.bodega', read_only=True)
     class Meta:
         model = DetalleFacturaV
         fields = '__all__'

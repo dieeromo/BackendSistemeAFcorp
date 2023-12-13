@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'generalAFC',
     'productos',
     'incidentes',
+    'cobros',
 ]
 
 CORS_ALLOWED_ORIGINS = [
